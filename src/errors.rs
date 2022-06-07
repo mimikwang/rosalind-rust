@@ -50,3 +50,9 @@ impl From<std::num::ParseIntError> for Error {
         Self::new(ErrorKind::IO, &e.to_string())
     }
 }
+
+impl From<std::string::FromUtf8Error> for Error {
+    fn from(e: std::string::FromUtf8Error) -> Self {
+        Self::new(ErrorKind::IO, &e.to_string())
+    }
+}

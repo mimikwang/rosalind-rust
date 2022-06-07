@@ -14,6 +14,7 @@ pub fn run() -> Result<()> {
         .subcommand(problems::gc::command())
         .subcommand(problems::hamm::command())
         .subcommand(problems::iprb::command())
+        .subcommand(problems::prot::command())
         .subcommand_required(true)
         .get_matches();
 
@@ -25,6 +26,7 @@ pub fn run() -> Result<()> {
         Some((problems::gc::SUBCOMMAND, matches)) => problems::gc::run(matches),
         Some((problems::hamm::SUBCOMMAND, matches)) => problems::hamm::run(matches),
         Some((problems::iprb::SUBCOMMAND, matches)) => problems::iprb::run(matches),
+        Some((problems::prot::SUBCOMMAND, matches)) => problems::prot::run(matches),
         _ => Err(Error::new(ErrorKind::User, "unknown subcommand")),
     }
 }
