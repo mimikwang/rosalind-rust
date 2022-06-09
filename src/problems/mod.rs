@@ -6,3 +6,4 @@ pub mod iprb;
 pub mod prot;
 pub mod revc;
 pub mod rna;
+pub mod subs;

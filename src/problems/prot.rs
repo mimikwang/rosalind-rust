@@ -93,13 +93,11 @@ mod tests {
             rna_string: &'a [u8],
             expected: Result<String>,
         }
-        let test_cases = [
-            TestCase {
-                name: "Sample Dataset from problem",
-                rna_string: b"AUGGCCAUGGCGCCCAGAACUGAGAUCAAUAGUACCCGUAUUAACGGGUGA",
-                expected: Ok("MAMAPRTEINSTRING".to_owned()),
-            },
-        ];
+        let test_cases = [TestCase {
+            name: "Sample Dataset from problem",
+            rna_string: b"AUGGCCAUGGCGCCCAGAACUGAGAUCAAUAGUACCCGUAUUAACGGGUGA",
+            expected: Ok("MAMAPRTEINSTRING".to_owned()),
+        }];
         for test_case in test_cases {
             assert_eq!(
                 test_case.expected,
