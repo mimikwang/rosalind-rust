@@ -14,7 +14,7 @@
 //!     20 12 17 21
 //!
 use crate::common;
-use crate::errors::{Error, ErrorKind, Result};
+use crate::errors::Result;
 use std::collections::BTreeMap;
 
 pub const SUBCOMMAND: &str = "dna";

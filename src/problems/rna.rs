@@ -13,7 +13,7 @@
 //!     GAUGGAACUUGACUACGUAAAUU
 //!
 use crate::common;
-use crate::errors::{Error, ErrorKind, Result};
+use crate::errors::Result;
 
 pub const SUBCOMMAND: &str = "rna";
 

@@ -32,7 +32,7 @@
 //!     T: 1 5 0 0 0 1 1 6
 //!
 use crate::common;
-use crate::errors::{Error, ErrorKind, Result};
+use crate::errors::Result;
 use std::collections::BTreeMap;
 
 pub const SUBCOMMAND: &str = "cons";
@@ -43,9 +43,9 @@ pub fn command() -> clap::Command<'static> {
 }
 
 /// Run the cons workflow
-/// 
+///
 /// Run the workflow by loading the fasta file and incrementing a counter per sequence.
-/// 
+///
 pub fn run(matches: &clap::ArgMatches) -> Result<()> {
     if let Some(path) = matches.value_of(common::FILE_ARG) {
         let reader = common::fasta::Reader::new(std::fs::File::open(path)?);

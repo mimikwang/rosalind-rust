@@ -6,7 +6,6 @@ pub type Result<T> = std::result::Result<T, Error>;
 pub enum ErrorKind {
     IO,
     User,
-    Eof,
 }
 
 /// Custom error type for the crate

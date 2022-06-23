@@ -27,8 +27,5 @@ pub fn subcommand_file(subcommand: &str) -> clap::Command<'static> {
 
 /// Return argument error
 pub fn argument_err() -> Error {
-    Error::new(
-        ErrorKind::User,
-        &format!("{} argument required", FILE_ARG)
-    )
+    Error::new(ErrorKind::User, &format!("{} argument required", FILE_ARG))
 }
