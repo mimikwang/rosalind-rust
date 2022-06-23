@@ -32,10 +32,7 @@ pub fn run(matches: &clap::ArgMatches) -> Result<()> {
         print(&positions);
         return Ok(());
     }
-    Err(Error::new(
-        ErrorKind::User,
-        &format!("{} argument required", common::FILE_ARG),
-    ))
+    Err(common::argument_err())
 }
 
 /// Print output

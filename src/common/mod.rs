@@ -1,4 +1,4 @@
-use crate::errors::Result;
+use crate::errors::{Error, ErrorKind, Result};
 use std::io::Read;
 
 pub mod fasta;
@@ -23,4 +23,12 @@ pub fn load_simple(path: &str) -> Result<String> {
 ///
 pub fn subcommand_file(subcommand: &str) -> clap::Command<'static> {
     clap::Command::new(subcommand).arg(clap::Arg::new(FILE_ARG).required(true))
+}
+
+/// Return argument error
+pub fn argument_err() -> Error {
+    Error::new(
+        ErrorKind::User,
+        &format!("{} argument required", FILE_ARG)
+    )
 }

@@ -30,10 +30,7 @@ pub fn run(matches: &clap::ArgMatches) -> Result<()> {
         println!("{}", translated);
         return Ok(());
     }
-    Err(Error::new(
-        ErrorKind::User,
-        &format!("{} argument required", common::FILE_ARG),
-    ))
+    Err(common::argument_err())
 }
 
 /// Translate RNA string to protein

@@ -34,10 +34,7 @@ pub fn run(matches: &clap::ArgMatches) -> Result<()> {
         println!("{}", rc);
         return Ok(());
     }
-    Err(Error::new(
-        ErrorKind::User,
-        &format!("{} argument required", common::FILE_ARG),
-    ))
+    Err(common::argument_err())
 }
 
 /// Reverse Complement a DNA string

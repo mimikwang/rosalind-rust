@@ -60,10 +60,7 @@ pub fn run(matches: &clap::ArgMatches) -> Result<()> {
         println!("{}", counter.format_output()?);
         return Ok(());
     }
-    Err(Error::new(
-        ErrorKind::User,
-        &format!("{} argument required", common::FILE_ARG),
-    ))
+    Err(common::argument_err())
 }
 
 /// Counter for bases

@@ -47,10 +47,7 @@ pub fn run(matches: &clap::ArgMatches) -> Result<()> {
         println!("{}\n{:.6}", max.0, max.1);
         return Ok(());
     }
-    Err(Error::new(
-        ErrorKind::User,
-        &format!("{} argument required", common::FILE_ARG),
-    ))
+    Err(common::argument_err())
 }
 
 /// Get record with highest GC content
