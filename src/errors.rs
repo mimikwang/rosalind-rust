@@ -56,3 +56,9 @@ impl From<std::string::FromUtf8Error> for Error {
         Self::new(ErrorKind::IO, &e.to_string())
     }
 }
+
+impl From<std::str::Utf8Error> for Error {
+    fn from(e: std::str::Utf8Error) -> Self {
+        Self::new(ErrorKind::IO, &e.to_string())
+    }
+}
