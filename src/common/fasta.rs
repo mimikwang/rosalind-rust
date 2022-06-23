@@ -10,6 +10,7 @@ where
 {
     reader: std::io::BufReader<R>,
     line: String,
+    is_eof: bool,
 }
 
 impl<R> Reader<R>
@@ -21,6 +22,7 @@ where
         Self {
             reader: std::io::BufReader::new(reader),
             line: String::new(),
+            is_eof: false,
         }
     }
 
@@ -36,7 +38,7 @@ where
         record.sequence = String::new();
         loop {
             self.read_line()?;
-            if is_name(&self.line) {
+            if is_name(&self.line) || self.is_eof {
                 break;
             }
             record.sequence.push_str(&get_sequence(&self.line));
@@ -54,7 +56,7 @@ where
         self.line.clear();
         let bytes = self.reader.read_line(&mut self.line)?;
         if bytes == 0 {
-            return Err(Error::new(ErrorKind::Eof, "end of file"));
+            self.is_eof = true;
         }
         Ok(())
     }
@@ -107,7 +109,7 @@ where
         let mut record = Record::new();
         match self.reader.read(&mut record) {
             Ok(()) => Some(Ok(record)),
-            Err(err) if err.kind() == &ErrorKind::Eof => None,
+            _ if self.reader.is_eof => None,
             Err(err) => Some(Err(err)),
         }
     }
@@ -141,12 +143,10 @@ mod tests {
             "Should read the sequence correctly",
         );
 
-        let err = reader.read(&mut record).err().unwrap();
-        assert_eq!(
-            &ErrorKind::Eof,
-            err.kind(),
+        assert!(
+            reader.read(&mut record).is_ok(),
             "{}",
-            "Should read second record and return EOF",
+            "Should read second record",
         );
         assert_eq!(
             String::from("name2"),
