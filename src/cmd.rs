@@ -17,6 +17,7 @@ pub fn run() -> Result<()> {
         .subcommand(problems::prot::command())
         .subcommand(problems::subs::command())
         .subcommand(problems::cons::command())
+        .subcommand(problems::fibd::command())
         .subcommand_required(true)
         .get_matches();
 
@@ -31,6 +32,7 @@ pub fn run() -> Result<()> {
         Some((problems::prot::SUBCOMMAND, matches)) => problems::prot::run(matches),
         Some((problems::subs::SUBCOMMAND, matches)) => problems::subs::run(matches),
         Some((problems::cons::SUBCOMMAND, matches)) => problems::cons::run(matches),
+        Some((problems::fibd::SUBCOMMAND, matches)) => problems::fibd::run(matches),
         _ => Err(Error::new(ErrorKind::User, "unknown subcommand")),
     }
 }
