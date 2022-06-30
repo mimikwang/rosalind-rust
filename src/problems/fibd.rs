@@ -59,7 +59,7 @@ fn simulate(n: u128, m: u128) -> u128 {
             month if month == m - 2 => current -= 1,
             month if month > m - 2 => {
                 current -= *tracker.get(tracker.len() - 1 - m as usize).unwrap_or(&0);
-            },
+            }
             _ => (),
         }
         tracker.push(current);
