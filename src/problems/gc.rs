@@ -51,7 +51,7 @@ pub fn run(matches: &clap::ArgMatches) -> Result<()> {
 }
 
 /// Get record with highest GC content
-fn max_gc(gc: &mut Vec<(String, f64)>) -> Option<&(String, f64)> {
+fn max_gc(gc: &mut [(String, f64)]) -> Option<&(String, f64)> {
     gc.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap());
     gc.first()
 }

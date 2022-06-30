@@ -55,10 +55,12 @@ fn simulate(n: u128, m: u128) -> u128 {
     let mut tracker = vec![1, 1];
     for month in 0..n - 2 {
         let mut current = tracker.iter().rev().take(2).sum();
-        if month == m - 2 {
-            current -= 1;
-        } else if month > (m - 2) {
-            current -= *tracker.get(tracker.len() - 1 - m as usize).unwrap_or(&0);
+        match month {
+            month if month == m - 2 => current -= 1,
+            month if month > m - 2 => {
+                current -= *tracker.get(tracker.len() - 1 - m as usize).unwrap_or(&0);
+            },
+            _ => (),
         }
         tracker.push(current);
     }
