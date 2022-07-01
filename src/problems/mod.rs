@@ -5,6 +5,7 @@ pub mod fibd;
 pub mod gc;
 pub mod grph;
 pub mod hamm;
+pub mod iev;
 pub mod iprb;
 pub mod prot;
 pub mod revc;
