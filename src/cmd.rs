@@ -20,6 +20,7 @@ pub fn run() -> Result<()> {
         .subcommand(problems::fibd::command())
         .subcommand(problems::grph::command())
         .subcommand(problems::iev::command())
+        .subcommand(problems::lcsm::command())
         .subcommand_required(true)
         .get_matches();
 
@@ -37,6 +38,7 @@ pub fn run() -> Result<()> {
         Some((problems::fibd::SUBCOMMAND, matches)) => problems::fibd::run(matches),
         Some((problems::grph::SUBCOMMAND, matches)) => problems::grph::run(matches),
         Some((problems::iev::SUBCOMMAND, matches)) => problems::iev::run(matches),
+        Some((problems::lcsm::SUBCOMMAND, matches)) => problems::lcsm::run(matches),
         _ => Err(Error::new(ErrorKind::User, "unknown subcommand")),
     }
 }

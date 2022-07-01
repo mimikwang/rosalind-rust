@@ -7,6 +7,7 @@ pub mod grph;
 pub mod hamm;
 pub mod iev;
 pub mod iprb;
+pub mod lcsm;
 pub mod prot;
 pub mod revc;
 pub mod rna;
