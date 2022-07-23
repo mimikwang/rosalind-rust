@@ -64,8 +64,8 @@ fn format_indices(indices: Vec<usize>) -> String {
     if indices.len() == 1 {
         return output;
     }
-    for i in 1..indices.len() {
-        output = format!("{} {}", output, indices[i]);
+    for index in indices.iter().skip(1) {
+        output = format!("{} {}", output, index);
     }
     output
 }
