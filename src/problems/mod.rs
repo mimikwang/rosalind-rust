@@ -11,6 +11,7 @@ pub mod lcsm;
 pub mod lia;
 pub mod mprt;
 pub mod mrna;
+pub mod orf;
 pub mod prot;
 pub mod revc;
 pub mod rna;

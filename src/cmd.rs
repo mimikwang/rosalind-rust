@@ -24,6 +24,7 @@ pub fn run() -> Result<()> {
         .subcommand(problems::lia::command())
         .subcommand(problems::mprt::command())
         .subcommand(problems::mrna::command())
+        .subcommand(problems::orf::command())
         .subcommand_required(true)
         .get_matches();
 
@@ -45,6 +46,7 @@ pub fn run() -> Result<()> {
         Some((problems::lia::SUBCOMMAND, matches)) => problems::lia::run(matches),
         Some((problems::mprt::SUBCOMMAND, matches)) => problems::mprt::run(matches),
         Some((problems::mrna::SUBCOMMAND, matches)) => problems::mrna::run(matches),
+        Some((problems::orf::SUBCOMMAND, matches)) => problems::orf::run(matches),
         _ => Err(Error::new(ErrorKind::User, "unknown subcommand")),
     }
 }
