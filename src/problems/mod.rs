@@ -14,6 +14,7 @@ pub mod mrna;
 pub mod orf;
 pub mod perm;
 pub mod prot;
+pub mod prtm;
 pub mod revc;
 pub mod rna;
 pub mod subs;
