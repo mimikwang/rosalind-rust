@@ -1,6 +1,7 @@
 use crate::errors::{Error, ErrorKind, Result};
 use std::io::Read;
 
+pub mod dna;
 pub mod fasta;
 
 pub const FILE_ARG: &str = "file";

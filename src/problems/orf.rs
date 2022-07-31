@@ -47,7 +47,7 @@ pub fn run(matches: &clap::ArgMatches) -> Result<()> {
 
 fn run_workflow(dna_string: &str) -> Result<BTreeSet<String>> {
     let mut output = find_all_proteins(dna_string.as_bytes())?;
-    output.append(&mut find_all_proteins(&reverse_complement(
+    output.append(&mut find_all_proteins(&common::dna::reverse_complement(
         dna_string.as_bytes(),
     )?)?);
     Ok(output)
@@ -87,20 +87,6 @@ fn find_starts(dna_string: &[u8]) -> Result<Vec<usize>> {
         }
     }
     Ok(starts)
-}
-
-fn reverse_complement(dna_string: &[u8]) -> Result<Vec<u8>> {
-    dna_string.iter().rev().map(complement).collect()
-}
-
-fn complement(base: &u8) -> Result<u8> {
-    match base {
-        b'A' => Ok(b'T'),
-        b'T' => Ok(b'A'),
-        b'C' => Ok(b'G'),
-        b'G' => Ok(b'C'),
-        _ => Err(Error::new(ErrorKind::IO, "not a dna base")),
-    }
 }
 
 fn translate(substring: &[u8]) -> Result<u8> {
@@ -234,28 +220,6 @@ mod tests {
             assert_eq!(
                 test_case.expected,
                 find_starts(test_case.dna_string),
-                "{}",
-                test_case.name
-            );
-        }
-    }
-
-    #[test]
-    fn test_reverse_complement() {
-        struct TestCase<'a> {
-            name: &'a str,
-            dna_string: &'a [u8],
-            expected: Result<Vec<u8>>,
-        }
-        let test_cases = [TestCase {
-            name: "Should reverse complement",
-            dna_string: b"AGTC",
-            expected: Ok(b"GACT".to_vec()),
-        }];
-        for test_case in test_cases {
-            assert_eq!(
-                test_case.expected,
-                reverse_complement(test_case.dna_string),
                 "{}",
                 test_case.name
             );
