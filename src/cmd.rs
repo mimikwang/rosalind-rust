@@ -27,6 +27,7 @@ pub fn run() -> Result<()> {
         .subcommand(problems::orf::command())
         .subcommand(problems::perm::command())
         .subcommand(problems::prtm::command())
+        .subcommand(problems::revp::command())
         .subcommand_required(true)
         .get_matches();
 
@@ -51,6 +52,7 @@ pub fn run() -> Result<()> {
         Some((problems::orf::SUBCOMMAND, matches)) => problems::orf::run(matches),
         Some((problems::perm::SUBCOMMAND, matches)) => problems::perm::run(matches),
         Some((problems::prtm::SUBCOMMAND, matches)) => problems::prtm::run(matches),
+        Some((problems::revp::SUBCOMMAND, matches)) => problems::revp::run(matches),
         _ => Err(Error::new(ErrorKind::User, "unknown subcommand")),
     }
 }

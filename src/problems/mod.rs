@@ -16,5 +16,6 @@ pub mod perm;
 pub mod prot;
 pub mod prtm;
 pub mod revc;
+pub mod revp;
 pub mod rna;
 pub mod subs;
