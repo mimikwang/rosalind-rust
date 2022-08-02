@@ -17,12 +17,11 @@
 //!     MTPRLGLESLLE
 //!
 use crate::common;
-use crate::errors::{Error, ErrorKind, Result};
+use crate::errors::Result;
 use std::collections::BTreeSet;
 
 pub const SUBCOMMAND: &str = "orf";
 const START_CODON: u8 = b'M';
-const END_CODON: u8 = b'-';
 
 /// Return the subcommand for ORF
 pub fn command() -> clap::Command<'static> {
@@ -58,21 +57,22 @@ fn find_all_proteins(dna_string: &[u8]) -> Result<BTreeSet<String>> {
     let starts = find_starts(dna_string)?;
     for start in starts {
         let mut protein = get_protein(dna_string, start)?;
-        if protein.pop() != Some(END_CODON) {
+        if protein.pop() != Some(None) {
             continue;
         }
-        let protein = String::from_utf8(protein.to_vec())?;
+        let protein: Vec<u8> = protein.iter().map(|base| base.unwrap()).collect();
+        let protein = String::from_utf8(protein)?;
         output.insert(protein);
     }
     Ok(output)
 }
 
-fn get_protein(dna_string: &[u8], start: usize) -> Result<Vec<u8>> {
+fn get_protein(dna_string: &[u8], start: usize) -> Result<Vec<Option<u8>>> {
     let mut protein = Vec::new();
     for substring in dna_string[start..].chunks_exact(3) {
-        let protein_base = translate(substring)?;
+        let protein_base = common::dna::dna_to_protein(substring)?;
         protein.push(protein_base);
-        if protein_base == END_CODON {
+        if protein_base.is_none() {
             break;
         }
     }
@@ -82,68 +82,11 @@ fn get_protein(dna_string: &[u8], start: usize) -> Result<Vec<u8>> {
 fn find_starts(dna_string: &[u8]) -> Result<Vec<usize>> {
     let mut starts = Vec::new();
     for (i, substring) in dna_string.windows(3).enumerate() {
-        if translate(substring)? == START_CODON {
+        if common::dna::dna_to_protein(substring)? == Some(START_CODON) {
             starts.push(i);
         }
     }
     Ok(starts)
-}
-
-fn translate(substring: &[u8]) -> Result<u8> {
-    match substring {
-        s if s == b"GCT" || s == b"GCC" || s == b"GCA" || s == b"GCG" => Ok(b'A'),
-        s if s == b"TGT" || s == b"TGC" => Ok(b'C'),
-        s if s == b"GAT" || s == b"GAC" => Ok(b'D'),
-        s if s == b"GAA" || s == b"GAG" => Ok(b'E'),
-        s if s == b"TTT" || s == b"TTC" => Ok(b'F'),
-        s if s == b"GGT" || s == b"GGC" || s == b"GGA" || s == b"GGG" => Ok(b'G'),
-        s if s == b"CAT" || s == b"CAC" => Ok(b'H'),
-        s if s == b"ATT" || s == b"ATC" || s == b"ATA" => Ok(b'I'),
-        s if s == b"AAA" || s == b"AAG" => Ok(b'K'),
-        s if s == b"TTA"
-            || s == b"TTG"
-            || s == b"CTT"
-            || s == b"CTC"
-            || s == b"CTA"
-            || s == b"CTG" =>
-        {
-            Ok(b'L')
-        }
-        s if s == b"ATG" => Ok(b'M'),
-        s if s == b"AAT" || s == b"AAC" => Ok(b'N'),
-        s if s == b"CCT" || s == b"CCC" || s == b"CCA" || s == b"CCG" => Ok(b'P'),
-        s if s == b"CAA" || s == b"CAG" => Ok(b'Q'),
-        s if s == b"CGT"
-            || s == b"CGC"
-            || s == b"CGA"
-            || s == b"CGG"
-            || s == b"AGA"
-            || s == b"AGG" =>
-        {
-            Ok(b'R')
-        }
-        s if s == b"TCT"
-            || s == b"TCC"
-            || s == b"TCA"
-            || s == b"TCG"
-            || s == b"AGT"
-            || s == b"AGC" =>
-        {
-            Ok(b'S')
-        }
-        s if s == b"ACT" || s == b"ACC" || s == b"ACA" || s == b"ACG" => Ok(b'T'),
-        s if s == b"GTT" || s == b"GTC" || s == b"GTA" || s == b"GTG" => Ok(b'V'),
-        s if s == b"TGG" => Ok(b'W'),
-        s if s == b"TAT" || s == b"TAC" => Ok(b'Y'),
-        s if s == b"TAA" || s == b"TAG" || s == b"TGA" => Ok(b'-'),
-        _ => Err(Error::new(
-            ErrorKind::IO,
-            &format!(
-                "unrecognized substring: {}",
-                String::from_utf8(substring.to_vec())?
-            ),
-        )),
-    }
 }
 
 #[cfg(test)]
@@ -186,13 +129,13 @@ mod tests {
             name: &'a str,
             dna_string: &'a [u8],
             start: usize,
-            expected: Result<Vec<u8>>,
+            expected: Result<Vec<Option<u8>>>,
         }
         let test_cases = [TestCase {
             name: "Should translate dna to protein",
             dna_string: b"AATGTATTAA",
             start: 1,
-            expected: Ok(b"MY-".to_vec()),
+            expected: Ok(vec![Some(b'M'), Some(b'Y'), None]),
         }];
         for test_case in test_cases {
             assert_eq!(
