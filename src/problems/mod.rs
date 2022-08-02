@@ -18,4 +18,5 @@ pub mod prtm;
 pub mod revc;
 pub mod revp;
 pub mod rna;
+pub mod splc;
 pub mod subs;
