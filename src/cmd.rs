@@ -29,6 +29,7 @@ pub fn run() -> Result<()> {
         .subcommand(problems::prtm::command())
         .subcommand(problems::revp::command())
         .subcommand(problems::splc::command())
+        .subcommand(problems::lexf::command())
         .subcommand_required(true)
         .get_matches();
 
@@ -55,6 +56,7 @@ pub fn run() -> Result<()> {
         Some((problems::prtm::SUBCOMMAND, matches)) => problems::prtm::run(matches),
         Some((problems::revp::SUBCOMMAND, matches)) => problems::revp::run(matches),
         Some((problems::splc::SUBCOMMAND, matches)) => problems::splc::run(matches),
+        Some((problems::lexf::SUBCOMMAND, matches)) => problems::lexf::run(matches),
         _ => Err(Error::new(ErrorKind::User, "unknown subcommand")),
     }
 }

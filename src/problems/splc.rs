@@ -50,7 +50,6 @@ pub fn run(matches: &clap::ArgMatches) -> Result<()> {
         let output = splice_and_translate(&dna_string, &references)?;
         println!("{}", output);
         return Ok(());
-
     }
     Err(common::argument_err())
 }
