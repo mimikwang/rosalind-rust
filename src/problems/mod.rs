@@ -9,6 +9,7 @@ pub mod iev;
 pub mod iprb;
 pub mod lcsm;
 pub mod lexf;
+pub mod lgis;
 pub mod lia;
 pub mod mprt;
 pub mod mrna;
