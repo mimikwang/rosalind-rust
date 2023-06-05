@@ -31,6 +31,7 @@ pub fn run() -> Result<()> {
         .subcommand(problems::splc::command())
         .subcommand(problems::lexf::command())
         .subcommand(problems::lgis::command())
+        .subcommand(problems::tran::command())
         .subcommand_required(true)
         .get_matches();
 
@@ -59,6 +60,7 @@ pub fn run() -> Result<()> {
         Some((problems::splc::SUBCOMMAND, matches)) => problems::splc::run(matches),
         Some((problems::lexf::SUBCOMMAND, matches)) => problems::lexf::run(matches),
         Some((problems::lgis::SUBCOMMAND, matches)) => problems::lgis::run(matches),
+        Some((problems::tran::SUBCOMMAND, matches)) => problems::tran::run(matches),
         _ => Err(Error::new(ErrorKind::User, "unknown subcommand")),
     }
 }
